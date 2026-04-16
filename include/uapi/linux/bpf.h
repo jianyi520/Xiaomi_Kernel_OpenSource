@@ -3383,11 +3383,11 @@ struct bpf_sock_ops {
 	__u64 bytes_received;
 	__u64 bytes_acked;
 	__bpf_md_ptr(struct bpf_sock *, sk);
-	// XIAOMI: Add by zhoulei8 --start
+	/* XIAOMI: Add by zhoulei8 --start */
 	__u32 sk_uid;
 	__u32 voip_daddr;
 	__u32 voip_dport;
-	// XIAOMI: Add by zhoulei8 --end
+	/* XIAOMI: Add by zhoulei8 --end */
 };
 
 /* Definitions for bpf_sock_ops_cb_flags */
@@ -3452,7 +3452,7 @@ enum {
 					 */
 	BPF_SOCK_OPS_RTT_CB,		/* Called on every RTT.
 					 */
-	// XIAOMI: Add by zhoulei8
+		/* XIAOMI: Add by zhoulei8 */
 	BPF_SOCK_OPS_VOIP_CB,		/* Called on every udp states. */
 };
 

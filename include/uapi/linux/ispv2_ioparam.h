@@ -34,7 +34,7 @@ typedef uint64_t u64;
 #define AL6021_IOC_MAGIC 'Q'
 #define AL6021_PRIVATE    168
 
-#define AL6021_PREAMBLE_LEN		2 // words
+#define AL6021_PREAMBLE_LEN		2 /* words */
 
 #define AL6021_OP_READ_MASK		0x10
 #define AL6021_OP_READ_MASK_n		0xef
@@ -47,8 +47,8 @@ typedef uint64_t u64;
 
 #define AL6021_OP_SPI_WRITE_REG	0x89
 #define AL6021_OP_SPI_WRITE_MEM	0x85
-#define AL6021_OP_SPI_READ_REG		(AL6021_OP_SPI_WRITE_REG  | AL6021_OP_READ_MASK)	// 0x99
-#define AL6021_OP_SPI_READ_MEM	(AL6021_OP_SPI_WRITE_MEM  | AL6021_OP_READ_MASK)	// 0x95
+#define AL6021_OP_SPI_READ_REG		(AL6021_OP_SPI_WRITE_REG  | AL6021_OP_READ_MASK)	/* 0x99 */
+#define AL6021_OP_SPI_READ_MEM	(AL6021_OP_SPI_WRITE_MEM  | AL6021_OP_READ_MASK)	/* 0x95 */
 
 #define al6021_op_is_read(_op)		((_op) & AL6021_OP_READ_MASK)
 #define al6021_op_is_write(_op)		(!((_op) & AL6021_OP_READ_MASK))
@@ -67,34 +67,34 @@ typedef enum
 } ISPV2ICEventType;
 
 #pragma pack(1)
-// ioctl parameter = linked-list of transactions
+/* ioctl parameter = linked-list of transactions */
 struct al6021_ioparam_s {
-	union { // next transaction in linked-list
+	union { /* next transaction in linked-list */
 		struct al6021_ioparam_s *next;
 		u64 _next;
 	};
-	u32 size; // size of transaction in bytes
+	u32 size; /* size of transaction in bytes */
 	int result;
 	u8 sub_protocol;
 	union {
 		struct {
-			// 10-bit ID: 1 1 1 1 0 A9 A8 RW - A7 A6 A5 A4 A3 A2 A1 A0
+			/* 10-bit ID: 1 1 1 1 0 A9 A8 RW - A7 A6 A5 A4 A3 A2 A1 A0 */
 			u8 slave_id_10[2];
 		};
 		struct {
 			u8 RESERVED[1];
-			u8 slave_id;	// 7-bit ID: A6 A5 A4 A3 A2 A1 A0 RW
+			u8 slave_id;	/* 7-bit ID: A6 A5 A4 A3 A2 A1 A0 RW */
 		};
 	};
 	union /* structure of txn (transaction) */ {
-		struct { // sub_protocol == 0 // 'e' protocol
+		struct { /* sub_protocol == 0, 'e' protocol */
 			u8 op;
 			union {
-				u32 addr; // internal address in slave device
-				u32 instruction; // treated as instruction if >= INSTRUCTION_RANGE
+				u32 addr; /* internal address in slave device */
+				u32 instruction; /* treated as instruction if >= INSTRUCTION_RANGE */
 				struct {
 					u8 RESERVED[3];
-					u8 pin; // treated as pin number
+					u8 pin; /* treated as pin number */
 				};
 			};
 			union {
@@ -107,17 +107,17 @@ struct al6021_ioparam_s {
 				};
 				u32 pin_value;
 			};
-		}; /* prot_e */ // referred as an anonymous structure
+		}; /* prot_e, referred as an anonymous structure */
 
-		struct { // sub_protocol == 1 // 'a' protocol
+		struct { /* sub_protocol == 1, 'a' protocol */
 			u8 op;
-			u16 addr; // internal address in slave device
+			u16 addr; /* internal address in slave device */
 			u8 RESERVED[1];
 		} prot_a;
 
-		struct { // sub_protocol == 0xff // raw protocol
+		struct { /* sub_protocol == 0xff, raw protocol */
 			u8 raw[1];
-		}; /* prot_raw; */ // referred as an anonymous structure
+		}; /* prot_raw, referred as an anonymous structure */
 	};
 };
 #pragma pack()
@@ -163,7 +163,7 @@ struct al6021_ioparam_s {
 	_IOR(AL6021_IOC_MAGIC, AL6021_PRIVATE + 4, struct al6021_ioparam_s)
 
 #ifdef __cplusplus
-} // extern "C"
+} /* extern "C" */
 #endif
 
-#endif // __ISPV2_IOPARAM_H__
+#endif /* __ISPV2_IOPARAM_H__ */
