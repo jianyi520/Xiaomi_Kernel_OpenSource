@@ -1267,6 +1267,14 @@ void xt_table_unlock(struct xt_table *table)
 }
 EXPORT_SYMBOL_GPL(xt_table_unlock);
 
+struct xt_table_info *
+xt_table_get_private_protected(const struct xt_table *table)
+{
+	return rcu_dereference_protected(table->private,
+					 lockdep_is_held(&xt[table->af].mutex));
+}
+EXPORT_SYMBOL_GPL(xt_table_get_private_protected);
+
 #ifdef CONFIG_COMPAT
 void xt_compat_lock(u_int8_t af)
 {
@@ -1917,4 +1925,3 @@ static void __exit xt_fini(void)
 
 module_init(xt_init);
 module_exit(xt_fini);
-

@@ -4,7 +4,7 @@
  */
 
 #include "../../../kernel/sched/sched.h"
-#include "../../../kernel/sched/walt.h"
+#include "../../../kernel/sched/walt/walt.h"
 #include "../../../fs/proc/internal.h"
 #include "trace.h"
 
