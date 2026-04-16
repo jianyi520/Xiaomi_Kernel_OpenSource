@@ -39,3 +39,6 @@ obj-$(CONFIG_BLK_PM)		+= blk-pm.o
 obj-$(CONFIG_BLK_INLINE_ENCRYPTION)	+= keyslot-manager.o bio-crypt-ctx.o \
 					   blk-crypto.o
 obj-$(CONFIG_BLK_INLINE_ENCRYPTION_FALLBACK)	+= blk-crypto-fallback.o
+
+# clang 14+ reports an align-mismatch false positive for rq->csd handoff.
+CFLAGS_blk-mq.o += $(call cc-disable-warning, align-mismatch)
